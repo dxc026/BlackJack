@@ -19,6 +19,29 @@ public class Game {
 		showDealerCards(dealer);
 		System.out.println("Dealer Total " + dealerTotal(dealer));
 		blackJack(player1, dealer);
+		
+		hitStayMenu();
+		
+		int hitStay = key.nextInt();
+
+		if (hitStay == 1) {
+			playerHit(player1, dealer);
+			if (playerTotal(player1) < 21) {
+				
+				hitStayMenu();
+			}
+				
+		} else if (hitStay == 2) {
+			playerStay(player1);
+			dealer(dealer);
+			stayWinConditions(player1, dealer);
+		} else {
+			System.out.println("Invalid Entry. Try Again!");
+		}
+
+	}
+	
+	public void hitStayMenu(){
 		System.out.println("|------------------------------------------------|");
 		System.out.println("|                                                |");
 		System.out.println("|   Player would you like to hit or stay?        |");
@@ -26,65 +49,8 @@ public class Game {
 		System.out.println("|    2. Stay                                     |");
 		System.out.println("|                                                |");
 		System.out.println("|------------------------------------------------|");
-		int hitStay = key.nextInt();
-
-		if (hitStay == 1) {
-			playerHit(player1, dealer);
-			if (playerTotal(player1) < 21) {
-				System.out.println("|------------------------------------------------|");
-				System.out.println("|                                                |");
-				System.out.println("|   Player would you like to hit or stay?        |");
-				System.out.println("|    1. Hit                                      |");
-				System.out.println("|    2. Stay                                     |");
-				System.out.println("|                                                |");
-				System.out.println("|------------------------------------------------|");
-				hitStay = key.nextInt();
-				if (hitStay == 1) {
-					playerHit(player1, dealer);
-				} else if (hitStay == 2) {
-					playerStay(player1);
-					playerStay(player1);
-					dealer(dealer);
-					if (playerTotal(player1) > dealerTotal(dealer)) {
-						System.out.println("Player has the higher hand");
-						System.out.println("You win!!!!");
-						System.exit(0);
-					}
-					if (dealerTotal(dealer) > playerTotal(player1)) {
-						System.out.println("Dealer has the higher hand");
-						System.out.println("Dealer wins!!!!");
-						System.exit(0);
-					}
-					if (dealerTotal(dealer) == playerTotal(player1)) {
-						System.out.println("The totals are equal.");
-						System.out.println("Draw!!!!");
-						System.exit(0);
-					}
-				}
-			}
-		} else if (hitStay == 2) {
-			playerStay(player1);
-			dealer(dealer);
-			if (playerTotal(player1) > dealerTotal(dealer)) {
-				System.out.println("Player has the higher hand");
-				System.out.println("You win!!!!");
-				System.exit(0);
-			}
-			if (dealerTotal(dealer) > playerTotal(player1)) {
-				System.out.println("Dealer has the higher hand");
-				System.out.println("Dealer wins!!!!");
-				System.exit(0);
-			}
-			if (dealerTotal(dealer) == playerTotal(player1)) {
-				System.out.println("The totals are equal.");
-				System.out.println("Draw!!!!");
-				System.exit(0);
-			}
-
-		} else {
-			System.out.println("Invalid Entry. Try Again!");
-		}
-
+		
+		
 	}
 
 	public void playerHit(Player player, Dealer dealer) {
@@ -100,8 +66,40 @@ public class Game {
 			System.out.println("Player got Black Jack. You win!!");
 			System.exit(0);
 		}
+		if(playerTotal(player) < 21){
+			hitStayMenu();
+			int hitStay = key.nextInt();
+			
+			if (hitStay == 1) {
+				playerHit(player, dealer);
+		}
+			else if( hitStay == 2){
+				playerStay(player);
+				dealer(dealer);
+				stayWinConditions(player, dealer);
+				
+			}
+		}
 	}
 
+	public void stayWinConditions(Player player, Dealer dealer){
+		if (playerTotal(player) > dealerTotal(dealer)) {
+			System.out.println("Player has the higher hand");
+			System.out.println("You win!!!!");
+			System.exit(0);
+		}
+		if (dealerTotal(dealer) > playerTotal(player)) {
+			System.out.println("Dealer has the higher hand");
+			System.out.println("Dealer wins!!!!");
+			System.exit(0);
+		}
+		if (dealerTotal(dealer) == playerTotal(player)) {
+			System.out.println("The totals are equal.");
+			System.out.println("Draw!!!!");
+			System.exit(0);
+		}
+		
+	}
 	public void playerStay(Player player) {
 		System.out.println("Player chooses to stay with: ");
 		showPlayerCards(player);
